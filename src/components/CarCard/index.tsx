@@ -1,4 +1,4 @@
-import "./styles.css";
+import "./styles.scss";
 import { ICarsProps } from "../../pages/Home";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
