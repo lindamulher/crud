@@ -4,8 +4,8 @@ type SetStateAction<S> = S | ((prevState: S) => S);
 
 type Dispatch<A> = (action: A) => void;
 interface ICampoTexto {
-  placeholder?: string;
-  value?: string | boolean | number;
+  placeholder?: any;
+  value?: any;
   onChange?(event: any): void;
   type?: string;
   obrigatorio?: boolean;

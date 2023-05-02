@@ -3,16 +3,29 @@ import { ICarsProps } from "../../pages/Home";
 import { BsFillTrashFill } from "react-icons/bs";
 import { FiEdit2 } from "react-icons/fi";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function CarCard({ brand, model, year, color, price, imgUrl, id }: ICarsProps) {
+  const car = { brand, model, year, color, price, imgUrl, id };
+  const navigate = useNavigate();
+
   async function handleDelete(id: number) {
-    const response = confirm(`deseja deletar o ${model}?`);
+    const response = confirm(`Deseja deletar o ${model}?`);
     if (response) {
       await axios.delete(`http://localhost:3333/cars/${id}`);
       window.location.reload();
     } else {
       return null;
     }
+  }
+
+  function navigateToEdit() {
+    navigate("/new-car", {
+      state: {
+        carDetails: car,
+        isEdit: true,
+      },
+    });
   }
 
   return (
@@ -36,7 +49,7 @@ function CarCard({ brand, model, year, color, price, imgUrl, id }: ICarsProps) {
               <div onClick={() => handleDelete(id!)}>
                 <BsFillTrashFill />
               </div>
-              <div>
+              <div onClick={navigateToEdit}>
                 <FiEdit2 />
               </div>
             </div>

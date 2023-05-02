@@ -28,7 +28,14 @@ const Home = () => {
     <div className="p-4 w-full">
       <div className="flex justify-end">
         <button
-          onClick={() => navigate("new-car")}
+          onClick={() =>
+            navigate("new-car", {
+              state: {
+                carDetails: null,
+                isEdit: false,
+              },
+            })
+          }
           className="flex mb-4 items-center justify-center rounded px-4 py-2 bg-blue-500 text-white font-semibold gap-2"
         >
           <AiOutlinePlusCircle /> Novo

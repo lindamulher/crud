@@ -1,8 +1,10 @@
 import React from "react";
 import CampoTexto from "../../components/CampoTexto";
 import { useNavigate } from "react-router-dom";
+import { login } from "../../utils";
+import { toast } from "react-toastify";
 
-interface IUserData {
+export interface IUserData {
   email: string;
   password: string;
 }
@@ -21,14 +23,29 @@ const Login = () => {
     setLoading(true);
     e.preventDefault();
 
-    if (!userData.email && !userData.password) {
+    if (!userData.email || !userData.password) {
       setLoading(false);
-      return alert("Preencha todos os campos!");
+      return toast("Preencha todos os campos!", {
+        type: "info",
+      });
     }
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-    setLoading(false);
-    navigate("/home");
-    console.log(userData);
+
+    try {
+      await login(userData);
+      toast("Logado com sucesso!", {
+        type: "success",
+      });
+      navigate("/");
+    } catch (error) {
+      toast(
+        "Ocorreu um erro ao realizar seu login, tente novamente mais tarde!",
+        {
+          type: "error",
+        }
+      );
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (
