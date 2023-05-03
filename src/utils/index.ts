@@ -22,3 +22,12 @@ export async function login(user: IUserData) {
 
   return userExists;
 }
+
+export async function register(user: IUserData) {
+  const userCreated = await axios.post(
+    `http://localhost:3333/auth/register`,
+    user
+  );
+
+  return userCreated;
+}

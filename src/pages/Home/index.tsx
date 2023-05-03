@@ -3,6 +3,7 @@ import axios from "axios";
 import CarCard from "../../components/CarCard";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header";
 
 export interface ICarsProps {
   brand: string;
@@ -25,40 +26,43 @@ const Home = () => {
   }, []);
 
   return (
-    <div className="p-4 w-full">
-      <div className="flex justify-end">
-        <button
-          onClick={() =>
-            navigate("new-car", {
-              state: {
-                carDetails: null,
-                isEdit: false,
-              },
-            })
-          }
-          className="flex mb-4 items-center justify-center rounded px-4 py-2 bg-blue-500 text-white font-semibold gap-2"
-        >
-          <AiOutlinePlusCircle /> Novo
-        </button>
-      </div>
+    <>
+      <Header />
+      <div className="p-4 w-full">
+        <div className="flex justify-end">
+          <button
+            onClick={() =>
+              navigate("new-car", {
+                state: {
+                  carDetails: null,
+                  isEdit: false,
+                },
+              })
+            }
+            className="flex mb-4 items-center justify-center rounded px-4 py-2 bg-blue-500 text-white font-semibold gap-2"
+          >
+            <AiOutlinePlusCircle /> Novo
+          </button>
+        </div>
 
-      <div className="flex flex-wrap gap-5 justify-center">
-        {cars?.map((item) => {
-          return (
-            <CarCard
-              brand={item.brand}
-              color={item.color}
-              price={item.price}
-              model={item.model}
-              year={item.year}
-              key={item.id}
-              imgUrl={item.imgUrl}
-              id={item.id}
-            />
-          );
-        })}
+        <div className="flex flex-wrap gap-5 justify-center">
+          {cars?.map((item) => {
+            return (
+              <CarCard
+                brand={item.brand}
+                color={item.color}
+                price={item.price}
+                model={item.model}
+                year={item.year}
+                key={item.id}
+                imgUrl={item.imgUrl}
+                id={item.id}
+              />
+            );
+          })}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

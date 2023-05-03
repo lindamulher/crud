@@ -8,6 +8,7 @@ import Home from "./pages/Home/index.tsx";
 import NewCar from "./pages/NewCar/index.tsx";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Register from "./pages/Register/index.tsx";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/new-car",
     element: <NewCar />,
+  },
+  {
+    path: "/register",
+    element: <Register />,
   },
 ]);
 

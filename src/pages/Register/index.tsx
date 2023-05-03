@@ -1,49 +1,40 @@
 import React from "react";
 import CampoTexto from "../../components/CampoTexto";
+import { IUserData } from "../Login";
 import { useNavigate } from "react-router-dom";
-import { login } from "../../utils";
 import { toast } from "react-toastify";
+import { register } from "../../utils";
 
-export interface IUserData {
-  email: string;
-  password: string;
-  repassword?: string;
-}
-const Login = () => {
+function Register() {
   const [userData, setUserData] = React.useState<IUserData>({
     email: "",
     password: "",
+    repassword: "",
   });
   const [showPassword, setShowPassword] = React.useState<boolean>(false);
   const [loading, setLoading] = React.useState(false);
   const navigate = useNavigate();
 
-  async function handleLogin(
-    e: React.MouseEvent<HTMLButtonElement, MouseEvent>
-  ) {
+  async function handleRegister() {
     setLoading(true);
-    e.preventDefault();
-
-    if (!userData.email || !userData.password) {
-      setLoading(false);
-      return toast("Preencha todos os campos!", {
+    if (userData.password !== userData.repassword) {
+      return toast("As senhas devem ser iguais!", {
+        theme: "dark",
         type: "info",
       });
     }
-
     try {
-      await login(userData);
-      toast("Logado com sucesso!", {
+      await register(userData);
+      toast(`Usuário criado com sucesso!`, {
+        theme: "dark",
         type: "success",
       });
-      navigate("/");
+      navigate("login");
     } catch (error) {
-      toast(
-        "Ocorreu um erro ao realizar seu login, tente novamente mais tarde!",
-        {
-          type: "error",
-        }
-      );
+      toast(`${error}`, {
+        theme: "dark",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -51,7 +42,7 @@ const Login = () => {
 
   return (
     <div className="flex flex-col h-[100vh] items-center justify-center bg-[#f2f1f6]">
-      <div className="bg-white shadow-lg p-4 w-2/5 h-2/5 flex flex-col items-center justify-evenly rounded gap-3">
+      <div className="bg-white shadow-lg p-4 w-96 flex flex-col items-center justify-evenly rounded gap-3">
         <h1 className="text-2xl font-semibold text-gray-500 uppercase">
           Login
         </h1>
@@ -78,26 +69,38 @@ const Login = () => {
             showPassword={showPassword}
             setShowPassword={setShowPassword}
           />
+          <CampoTexto
+            obrigatorio
+            placeholder="Repita a senha"
+            onChange={(event) =>
+              setUserData({ ...userData, repassword: event.target.value })
+            }
+            type={showPassword ? "text" : "password"}
+            value={userData.repassword}
+            isPassword
+            showPassword={showPassword}
+            setShowPassword={setShowPassword}
+          />
 
           <button
-            onClick={() => navigate("/register")}
+            onClick={() => navigate("/login")}
             className="text-blue-400 font-regular"
           >
-            Não possui conta? Registrar-se
+            Já possui conta? Fazer login
           </button>
         </div>
 
         {/* UserData-Password */}
 
         <button
+          onClick={handleRegister}
           className="bg-blue-400 w-2/5 rounded text-white font-semibold py-2"
-          onClick={handleLogin}
         >
-          {loading ? "Processando..." : "Logar"}
+          {loading ? "Processando..." : "Registrar"}
         </button>
       </div>
     </div>
   );
-};
+}
 
-export default Login;
+export default Register;
